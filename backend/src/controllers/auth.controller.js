@@ -41,7 +41,7 @@ const register = async (req, res) => {
         })
 
         res.status(201).json({
-            message: "User created succesfully",
+            message: "User created successfully",
             user: {
                 id: newUser.id,
                 name: newUser.name,
@@ -88,11 +88,53 @@ const login = async (req, res) => {
                     stataus: false,
                     message: "Invalid credentials"
                 })
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "7d" })
+        res.cookie("jwt", token, {
+            httpOnly: true,
+            sameSite: "strict",
+            secure: process.env.NODE_ENV !== "development",
+            maxAge: 1000 * 60 * 60 * 24 * 7
+        })
+
+        res.status(200).json({
+            message: "User logged in successfully",
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                image: user.image
+            }
+
+        })
     } catch (error) {
         console.error("Login Failed", error);
         res.status(400).json({
             status: false,
             message: `Login Failed ${error}`
+        })
+    }
+
+}
+
+const logout = async (req, res) => {
+    try {
+        res.clearCookie("jwt", {
+            httpOnly: true,
+            sameSite: "strict",
+            secure: process.env.NODE_ENV !== "development"
+        })
+        res.status(200).json(
+            {
+                status: true,
+                message: "Logged out successfully"
+            }
+        )
+    } catch (error) {
+        console.error(`Error log out ${error}`);
+        res.status(400).json({
+            stataus: false,
+            message: `Error log out ${error}`
         })
 
 
@@ -100,11 +142,25 @@ const login = async (req, res) => {
 
 }
 
-const logout = async (req, res) => {
-
-}
-
 const me = async (req, res) => {
+    try {
+        res.status(200).json(
+            {
+                success: true,
+                message: "User authenticated succesfully",
+                user: req.user
+            }
+        )
+    } catch (error) {
+        console.error(`Error authentication ${error}`);
+        res.status(400).json(
+            {
+                status: false,
+                message: `Error authentication ${error}`
+            }
+        )
+
+    }
 
 }
 
