@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.route.js";
+import problemRoutes from "./routes/problem.route.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 8080
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/problem", problemRoutes);
 
 app.listen(PORT, () => {
     console.log(`Listening on PORT: ${PORT}`);
