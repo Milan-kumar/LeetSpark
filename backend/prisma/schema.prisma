@@ -43,17 +43,16 @@ model Problem {
   title       String
   description String
   difficulty  Difficulty
-  name        String
   tags        String[] //["tag1","tag2", "tag3"]
   userId      String
   examples    Json
-  constrains  String
+  constraints String
   hints       String?
   editorial   String?
 
-  testCases         Json
-  codeSnippets      Json
-  refrenceSolutions Json
+  testCases          Json
+  codeSnippets       Json
+  referenceSolutions Json
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
