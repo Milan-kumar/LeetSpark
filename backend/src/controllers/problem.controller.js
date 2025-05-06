@@ -11,10 +11,7 @@ export const createProblem = async (req, res) => {
         if (req.user.role !== "ADMIN")
             return res.status(403).json({ status: false, error: `You are not allowed to create a problem` })
         for (const [language, solutionCode] of Object.entries(referenceSolutions)) {
-            console.log("Body", language);
             const languageId = getJudge0LanguageId(language);
-            console.log("Body", languageId);
-
             if (!languageId) {
                 return res.status(400).
                     json({ status: false, error: `Language ${language} is not supported` })
@@ -141,7 +138,7 @@ const getProblem = async (req, res) => {
 const deleteProblem = async (req, res) => {
     try {
         const { id } = req.params;
-        const problem = await db.findUnique(
+        const problem = await db.problem.findUnique(
             {
                 where: {
                     id

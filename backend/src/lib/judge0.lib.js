@@ -22,7 +22,7 @@ export const pollBatchResults = async (tokens) => {
 
         const results = data.submissions;
         console.log("res:", results);
-        
+
 
         // The every method calls the predicate function for each element in the array until the predicate returns a value which is coercible to the Boolean value false, or until the end of the array.
         // Determines whether all the members of an array satisfy the specified test.
@@ -38,7 +38,7 @@ export const submitBatch = async (submissions) => {
 
     const { data } = await axios.post(`${process.env.JUDGE0_API_URL}/submissions/batch?base64_encoded=false`, { submissions });
 
-    console.log(`Submission Results: ${data}`);
+    console.log("Submission Results: ", data);
     return data; //[{token},{token},{token}]
 
 }
