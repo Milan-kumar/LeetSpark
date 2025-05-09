@@ -9,6 +9,18 @@ export const getJudge0LanguageId = (language) => {
     return languageMap[language.toUpperCase()]
 }
 
+export function getLanguageName(languageId) {
+    const LANGUAGE_NAME = {
+        74: "TypeScript",
+        63: "JavaScript",
+        71: "Python",
+        62: "Java",
+    }
+
+    return LANGUAGE_NAME[languageId] || "Unknown"
+
+}
+
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export const pollBatchResults = async (tokens) => {

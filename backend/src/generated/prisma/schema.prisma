@@ -37,7 +37,7 @@ model User {
 
   problems Problem[]
 
-  submisson     Submisson[]
+  submission    Submission[]
   problemSolved ProblemSolved[]
 }
 
@@ -61,12 +61,17 @@ model Problem {
   updatedAt DateTime @updatedAt
 
   //Relationship
-  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  submisson Submisson[]
-  solvedBy  ProblemSolved[]
+  user       User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  submission Submission[]
+  solvedBy   ProblemSolved[]
 }
 
-model Submisson {
+enum Status {
+  ACCEPTED
+  WRONG_ANSWER
+}
+
+model Submission {
   id            String  @id @default(uuid())
   userId        String
   problemId     String
@@ -76,7 +81,7 @@ model Submisson {
   stdout        String?
   stderr        String?
   compileOutput String?
-  status        String //Accepted, Wrong Answer
+  status        Status //Accepted, Wrong Answer
   memory        String?
   time          String?
 
@@ -86,12 +91,12 @@ model Submisson {
   problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  testCases testCaseResult[]
+  testCases TestCaseResult[]
 }
 
-model testCaseResult {
+model TestCaseResult {
   id            String  @id @default(uuid())
-  submissonId   String
+  submissionId  String
   testCase      Int
   passed        Boolean
   stdout        String?
@@ -105,9 +110,9 @@ model testCaseResult {
   createdAt  DateTime @default(now())
   updaytedAt DateTime @updatedAt
 
-  submisson Submisson @relation(fields: [submissonId], references: [id], onDelete: Cascade)
+  submission Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
 
-  @@index([submissonId])
+  @@index([submissionId])
 }
 
 model ProblemSolved {
