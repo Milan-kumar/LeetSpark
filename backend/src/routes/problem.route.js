@@ -1,6 +1,6 @@
 import express from "express";
 import { authMiddleware, checkAdmin } from "../middleware/auth.middleware.js";
-import { createProblem, deleteProblem, getAllProblems, getProblem } from "../controllers/problem.controller.js";
+import { createProblem, deleteProblem, getAllProblems, getAllProblemsSolvedByUser, getProblem } from "../controllers/problem.controller.js";
 
 const problemRoutes = express.Router();
 
@@ -14,6 +14,6 @@ problemRoutes.get("/get-problem/:id", authMiddleware, getProblem)
 
 problemRoutes.delete("/delete-problem/:id", authMiddleware, checkAdmin, deleteProblem);
 
-// problemRoutes.get("/get-solved-problems", authMiddleware, getAllProblemsSolvedByUser);
+problemRoutes.get("/get-solved-problems", authMiddleware, getAllProblemsSolvedByUser);
 
 export default problemRoutes;
