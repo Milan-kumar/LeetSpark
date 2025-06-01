@@ -4,11 +4,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Link } from 'react-router-dom'
 import { Code, Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react"
 import { z } from "zod"
+
 import { useAuthStore } from "../store/useAuthStore";
 import AuthImagePattern from "../components/AuthImagePattern"
 
 const SignUpSchema = z.object({
-    emaiil: z.string().email("Enter a valid email"),
+    email: z.string().email("Enter a valid email"),
     password: z.string().min(6, "Password must be atleast of 6 characters"),
     name: z.string().min(3, "Name must be atleast 3 characters")
 })
@@ -81,14 +82,14 @@ const SignUpPage = () => {
                                 </div>
                                 <input
                                     type="email"
-                                    {...register("emaiil")}
-                                    className={`input input-bordered w-full pl-10 ${errors.emaiil ? "input-error" : ""
+                                    {...register("email")}
+                                    className={`input input-bordered w-full pl-10 ${errors.email ? "input-error" : ""
                                         }`}
                                     placeholder="you@example.com"
                                 />
                             </div>
-                            {errors.emaiil && (
-                                <p className="text-red-500 text-sm mt-1">{errors.emaiil.message}</p>
+                            {errors.email && (
+                                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
                             )}
                         </div>
 
