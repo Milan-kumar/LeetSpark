@@ -6,10 +6,11 @@ export const createProblem = async (req, res) => {
         const { title, description, difficulty, tags, examples, constraints,
             testCases, codeSnippets, referenceSolutions } = req.body
 
-        // console.log("Body", language);
+        console.log("Body", req.user.role);
+        // console.log("Body", req.body);
         //check the user role again
         if (req.user.role !== "ADMIN")
-            return res.status(403).json({ status: false, error: `You are not allowed to create a problem` })
+            return res.status(401).json({ status: false, error: `You are not allowed to create a problem` })
         for (const [language, solutionCode] of Object.entries(referenceSolutions)) {
             const languageId = getJudge0LanguageId(language);
             if (!languageId) {
@@ -23,8 +24,8 @@ export const createProblem = async (req, res) => {
                 stdin: input,
                 expected_outpiut: output
             }));
-
             const submissionResult = await submitBatch(submissions);
+            // console.log("submissionResult", submissionResult);
 
             const tokens = submissionResult.map((res) => res.token)
             console.log("tokens", tokens);
