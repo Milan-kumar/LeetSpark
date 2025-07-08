@@ -14,9 +14,10 @@ const PORT = process.env.PORT || 8080
 
 const app = express();
 
-//middlewars
+//middleware
+// origin: "http://localhost:5173",
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: [`${process.env.APP_URL}`,`http://localhost:5173`],
     credentials: true
 }))
 
@@ -25,6 +26,8 @@ app.use(cookieParser());
 
 app.get("/", (req, res) => {
     res.send("Welcome to leetspark 🧑‍💻")
+    console.log(PORT);
+    
 })
 
 app.use("/api/v1/auth", authRoutes);
@@ -34,6 +37,6 @@ app.use("/api/v1/submissions", submissionRoutes)
 app.use("/api/v1/playlist", playlistRoutes);
 
 app.listen(PORT, () => {
-    console.log(`Listening on PORT: ${PORT}`);
+    console.log(`Listening on PORT: ${PORT} ${process.env.APP_URL}`);
 
 })
